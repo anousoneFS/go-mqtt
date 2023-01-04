@@ -35,18 +35,28 @@ func main() {
 		panic(token.Error())
 	}
 
-	topic := "wsm/wsm001/response/status/sensor"
+	topic := "en-de/wsm/wsm001/sensor/dht"
 	token = client.Subscribe(topic, 1, nil)
 	token.Wait()
 	fmt.Printf("Subscribed to topic %s\n", topic)
 
+	// key := []byte("the-key-has-to-be-32-bytes-long!")
+	// ciphertext := []byte("zfzTvPLBgo3EjH6+S+t5HQ==")
+	// painText, err := decrypt(ciphertext, key)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+	// fmt.Printf("=> painText: %v\n", painText)
+
 	num := 10
+	topicSensor := "wsm/wsm001/sensor/dht"
 	for i := 0; i < num; i++ {
 		text := fmt.Sprintf("%d", i)
-		token = client.Publish(topic, 0, false, text)
+		token = client.Publish(topicSensor, 0, false, text)
 		token.Wait()
-		time.Sleep(time.Second)
+		time.Sleep(time.Second * 5)
 	}
-
 	client.Disconnect(100)
+
+	// EncryptDecrypt()
 }
